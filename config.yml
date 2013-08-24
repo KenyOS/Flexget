@@ -1,0 +1,146 @@
+presets:
+  global:
+    domain_delay:
+      bt-chat.com: 15 seconds
+      torrentz.eu: 15 seconds
+      kat.ph: 15 seconds
+      ezrss.it: 15 seconds
+      h33t.com: 15 seconds
+      torlock.com: 15 seconds
+      tokyotosho.info: 15 seconds
+      nyaa.eu: 15 seconds
+    regexp:
+      reject:
+        - \b(duo|tri|quadri|tetra|penta)logy\b: {from: title} 
+        - \b3-?D\b: {from: title}                             
+        - \btrailer\b: {from: title}                          
+        - \bR5\b: {from: title}                               
+        - \bWEBSCR\b: {from: title}                           
+        - \bscreener\b: {from: title}
+        - \bTS\b: {from: title}
+        - \bCam\b: {from: title}
+        - \bRAW\b: {from: title}
+        - \bSpeed.Cd\b: {from: title} #slow
+    torrent_alive:
+      min_seeds: 10
+      reject_for: 3 hours
+
+    content_filter:
+      require:
+        - '*.avi'
+        - '*.mkv'
+        - '*.mpg'
+        - '*.mp4'
+        - '*.r0*'
+        - '*.part0*'
+      reject:
+        - 'password.txt'
+        - '*.wmv'
+
+  animes:
+    import_series:
+      settings:
+        identified_by: sequence
+      from:
+        myanimelist:
+          username: 'kenyoshiro'
+          list: watching
+    quality: 720p+
+    regexp:
+      reject:
+        - RAW
+        - Spanish
+        - french
+        - non-english
+        - 10bit
+        - Hi10P
+        - chs
+        - chinese
+    download: 
+      path: 'X:\Downloads\Anime\{{series_name}}/Season {{series_season}}/'
+    set:
+      ut_path: 'X:\Downloads\torrent'
+      overwrite: yes
+    exec: '"D:\HD\PortableApps\uTorrentPortable\App\uTorrent\uTorrent.exe" /DIRECTORY "{{ut_path|pathscrub}}" "{{output}}"'
+
+  animes2:
+    import_series:
+      settings:
+        identified_by: sequence
+      from:
+        myanimelist:
+          username: 'kenyoshiro'
+          list: plan to watch
+    quality: 720p+
+    regexp:
+      reject:
+        - RAW
+        - Spanish
+        - french
+        - non-english
+        - 10bit
+        - Hi10P
+        - chinese
+        - chs
+  content_filter:
+    require:
+      - '*.avi'
+      - '*.mkv'
+      - '*.mp4'
+    download: 
+      path: 'X:\Downloads\Anime\{{series_name}}/Season {{series_season}}/'
+    set:
+      ut_path: 'X:\Downloads\torrent'
+      overwrite: yes
+    exec: '"D:\HD\PortableApps\uTorrentPortable\App\uTorrent\uTorrent.exe" /DIRECTORY "{{ut_path|pathscrub}}" "{{output}}"'
+  movies:
+    imdb:
+      min_score: 6.2
+      min_votes: 6000
+      min_year: 2013
+      reject_genres:
+        - documentary
+        - musical
+        - music
+        - biography
+    exists_series:
+      - 'X:\Downloads\Movie'
+    quality: 720p+
+    regexp:
+      reject:
+        - CAM
+        - Latino
+        - french
+    content_filter:
+      require:
+        - '*.avi'
+        - '*.mkv'
+        - '*.mp4'
+    download: 
+      path: 'X:\Downloads\torrent'
+    set:
+      ut_path: 'X:\Downloads\Movie\{{series_name}}'
+      overwrite: yes
+    exec: '"D:\HD\PortableApps\uTorrentPortable\App\uTorrent\uTorrent.exe" /DIRECTORY "{{ut_path|pathscrub}}" "{{output}}"'
+tasks:
+  Anime:
+    inputs:
+      - rss: http://www.nyaa.eu/?page=rss&cats=1_37&filter=2
+      - rss: http://www.nyaa.eu/?page=rss&user=64513
+      - rss: http://www.tokyotosho.info/rss.php?filter=1
+    preset: animes
+
+  Anime2:
+    inputs:
+      - rss: http://www.nyaa.eu/?page=rss&cats=1_37&filter=2
+      - rss: http://www.nyaa.eu/?page=rss&user=64513
+      - rss: http://www.tokyotosho.info/rss.php?filter=1
+    preset: animes2
+
+  Movie:
+    inputs:
+      - rss: http://rss.thepiratebay.sx/201
+      - rss: http://yify-torrents.com/rss/0/All/All/0
+      - rss: http://kickass.to/movies/?rss=1
+      - rss: http://publichd.eu/rss.php?filter=1
+    preset: movies
