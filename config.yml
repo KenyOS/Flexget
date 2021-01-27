@@ -10,7 +10,7 @@ templates:
       settings:
         # Configure all the series options to your taste
         quality: 720p+
-        path: /downloads/Animes/{{series_name}}/Season {{series_season}}/  # This will sort your downloads if you are using one of the output plugins which supports it
+        path: /{? home ?}/Animes/{{series_name}}/Season {{series_season}}/  # This will sort your downloads if you are using one of the output plugins which supports it
         identified_by: ep
       from:
         my_anime_list:
