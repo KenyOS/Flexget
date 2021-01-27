@@ -1,5 +1,5 @@
 web_server: yes
-variables: variables.yml
+variables: yes
 templates:
   # This is just in a template so that it can easily be re-used in multiple tasks 
   # (for example in an rss based and discover based task)
