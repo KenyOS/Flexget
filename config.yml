@@ -1,3 +1,42 @@
+web_server: yes
+variables: variables.yml
+templates:
+  # This is just in a template so that it can easily be re-used in multiple tasks 
+  # (for example in an rss based and discover based task)
+  # If you only have one task using your series config, you can place
+  # the configure_series plugin directly in that task rather than in a template
+  Animes:
+    configure_series:
+      settings:
+        # Configure all the series options to your taste
+        quality: 720p+
+        path: {? in.home ?}/Animes/{{series_name}}/Season {{series_season}}/  # This will sort your downloads if you are using one of the output plugins which supports it
+        identified_by: ep
+      from:
+        my_anime_list:
+          username: kenyos
+          status:
+            - watching
+            - plan_to_watch
+          airing_status:
+            - airing
+            - planned
+          type: tv
+schedules:
+  - tasks: '*'
+    interval:
+      minutes: 60
+tasks:
+  Animes:
+    rss: https://nyaa.si/?page=rss&c=1_0&f=0
+    
+schedules:
+  - tasks: Animes
+    interval:
+      minutes: 30
+      
+
+# ==== Very OLD just for reference =====#
 presets:
   global:
     domain_delay:
